@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var firebase = require('firebase');
+var firebase_configuration_json = require('/Users/mguo/.ironman/firebase_configure.json');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -29,6 +32,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
+// ====== firebase configuration ======
+var config = {
+  apiKey: firebase_configuration_json.apiKey,
+  authDomain: firebase_configuration_json.authDomain,
+  databaseURL: firebase_configuration_json.databaseURL,
+  projectId: firebase_configuration_json.projectId,
+  storageBucket: firebase_configuration_json.storageBucket,
+  messagingSenderId: firebase_configuration_json.messagingSenderId
+};
+firebase.initializeApp(config);
+
+// ====== use routers ======
 app.use('/', index);
 app.use('/users', users);
 
